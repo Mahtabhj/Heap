@@ -1,0 +1,118 @@
+#include<stdio.h>
+
+void heapify(int arr[], int n, int i)
+{
+    int largest = i;
+    int l = 2 * i + 1;
+    int r = 2 * i + 2;
+
+
+    if (l < n && arr[l] > arr[largest])
+        largest = l;
+
+
+    if (r < n && arr[r] > arr[largest])
+        largest = r;
+
+
+    if (largest != i) {
+
+        int temp;
+        temp = arr[i];
+        arr[i]=arr[largest];
+        arr[largest]=temp;
+
+        heapify(arr, n, largest);
+    }
+}
+void heapifyi(int arr[], int n, int i)
+{
+
+    int parent = (i - 1) / 2;
+
+    if (arr[parent] > 0) {
+
+        if (arr[i] > arr[parent]) {
+
+             int temp;
+        temp = arr[i];
+        arr[i]=arr[parent];
+        arr[parent]=temp;
+
+            heapifyi(arr, n, parent);
+        }
+    }
+}
+void deleteRoot(int arr[], int& n)
+{
+    int lastElement = arr[n - 1];
+
+
+    arr[0] = lastElement;
+
+
+    n = n - 1;
+
+    heapify(arr, n, 0);
+}
+void insertNode(int arr[], int& n, int Key)
+{
+
+    n = n + 1;
+
+
+    arr[n - 1] = Key;
+
+
+    heapifyi(arr, n, n - 1);
+}
+void printArray(int arr[], int n)
+{
+    for (int i = 0; i < n; ++i)
+        printf("%d ",arr[i]);
+        printf("\n");
+}
+void buildHeap(int arr[], int n)
+{
+
+    int startIdx = (n / 2) - 1;
+
+
+    for (int i = startIdx; i >= 0; i--) {
+        heapify(arr, n, i);
+    }
+}
+int main()
+{
+
+    int n;
+    printf("How many node = \n");
+    scanf("%d",&n);
+    int arr[n];
+    int i;
+    for(i=0;i<n;i++)
+    {
+        scanf("%d",&arr[i]);
+    }
+    buildHeap(arr,n);
+    printArray(arr,n);
+    for(;;){
+    printf("1.Insert\n2.Delete\n3.Exit\n");
+    int choice;
+    scanf("%d",&choice);
+    if(choice==1)
+    {
+        printf("Enter a number = ");
+        int key;
+        scanf("%d",&key);
+        insertNode(arr,n,key);
+    }
+    else if(choice==2){
+
+        deleteRoot(arr, n);
+    }
+    else return 0;
+    printArray(arr, n);
+    }
+    return 0;
+}
